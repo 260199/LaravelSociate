@@ -40,17 +40,17 @@
                                 <form action="{{ url('login/proses') }}" method="post">
                                     @csrf
                                     <div class="input-group mb-3">
-                                    <input type="text" class="form-control
-                                    @error('username')
+                                    <input type="email" class="form-control
+                                    @error('email')
                                     is-invalid
                                     @enderror
-                                    " placeholder="username" name="username" autofocus disabled>
+                                    " placeholder="email" name="email" autofocus >
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                         <span class="fas fa-user "></span>
                                         </div>
                                     </div>
-                                    @error('username')
+                                    @error('email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -62,7 +62,7 @@
                                     @error('password')
                                     is-invalid
                                     @enderror
-                                    " placeholder="Password" name="password" disabled>
+                                    " placeholder="Password" name="password" >
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                         <span class="fas fa-lock"></span>
@@ -77,7 +77,7 @@
                                     <div class="row">
                                     <!-- /.col -->
                                     <div class="col-12 mt-6 mb-6">
-                                        <button type="submit" class="btn btn-primary btn-block" disabled>Sign In</button>
+                                        <button type="submit" class="btn btn-primary btn-block" >Sign In</button>
                                         <a href="{{ route('redirect') }}" class="btn btn-primary btn-block">Login With Google</a>
                                     </div>
                                     <!-- /.col -->

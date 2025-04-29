@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('role')->default('2');
             $table->string('email')->unique();
+            $table->string('password')->nullable();
+            $table->boolean('is_password_set')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profile')->default('/default/undraw_profile.svg');
             $table->rememberToken();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

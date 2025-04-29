@@ -41,7 +41,6 @@ class ExportFPDFController extends Controller
             $this->fpdf->Cell(50, 8, $user->email, 1);
             $this->fpdf->Ln();
         }
-
         $this->fpdf->Output('I', 'data-user.pdf'); // 'I' untuk preview di tab baru
         exit;
     }

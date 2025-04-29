@@ -68,118 +68,116 @@ class UserController extends Controller
 
 
 
-        public function export()
+    public function export()
+    {
+        $users = User::all();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $spreadsheet->getProperties()
+            ->setCreator('ITP')
+            ->setTitle('Data User Export')
+            ->setSubject('Export Data')
+            ->setDescription('Export data user ke file Excel')
+            ->setCategory('Export File');
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Name');
+        $sheet->setCellValue('C1', 'Username');
+        $sheet->setCellValue('D1', 'Role');
+        $sheet->setCellValue('E1', 'Email');
+        $sheet->setCellValue('F1', 'Profile');
+
+        $row = 2;
+        foreach ($users as $index => $user) {
+            $sheet->setCellValue('A' . $row, $index + 1);
+            $sheet->setCellValue('B' . $row, $user->name);
+            $sheet->setCellValue('C' . $row, $user->username);
+            $sheet->setCellValue('D' . $row, $user->role);
+            $sheet->setCellValue('E' . $row, $user->email);
+            $sheet->setCellValue('F' . $row, $user->profile);
+            $row++;
+        }
+
+        foreach (range('A', 'F') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $fileName = 'user_export_' . now()->format('Ymd_His') . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+        $temp_file = storage_path('app/public/' . $fileName); // simpan ke folder storage/public
+        $writer->save($temp_file);
+
+        return response()->download($temp_file, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ])->deleteFileAfterSend(true);
+    }
+
+        public function exportPdf()
         {
             $users = User::all();
 
-            $spreadsheet = new Spreadsheet();
-            $sheet = $spreadsheet->getActiveSheet();
+            $pdf = new \Codedge\Fpdf\Fpdf\Fpdf();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 10, 'Daftar User', 0, 1, 'C');
+            $pdf->Ln(5);
 
-            $spreadsheet->getProperties()
-                ->setCreator('ITP')
-                ->setTitle('Data User Export')
-                ->setSubject('Export Data')
-                ->setDescription('Export data user ke file Excel')
-                ->setCategory('Export File');
+            // Header Table
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(10, 10, 'No', 1);
+            $pdf->Cell(40, 10, 'Name', 1);
+            $pdf->Cell(30, 10, 'Username', 1);
+            $pdf->Cell(30, 10, 'Role', 1);
+            $pdf->Cell(60, 10, 'Email', 1);
+            $pdf->Ln();
 
-            $sheet->setCellValue('A1', 'No');
-            $sheet->setCellValue('B1', 'Name');
-            $sheet->setCellValue('C1', 'Username');
-            $sheet->setCellValue('D1', 'Role');
-            $sheet->setCellValue('E1', 'Email');
-            $sheet->setCellValue('F1', 'Profile');
-
-            $row = 2;
+            // Isi Data
+            $pdf->SetFont('Arial', '', 10);
             foreach ($users as $index => $user) {
-                $sheet->setCellValue('A' . $row, $index + 1);
-                $sheet->setCellValue('B' . $row, $user->name);
-                $sheet->setCellValue('C' . $row, $user->username);
-                $sheet->setCellValue('D' . $row, $user->role);
-                $sheet->setCellValue('E' . $row, $user->email);
-                $sheet->setCellValue('F' . $row, $user->profile);
-                $row++;
+                $pdf->Cell(10, 10, $index + 1, 1);
+                $pdf->Cell(40, 10, $user->name, 1);
+                $pdf->Cell(30, 10, $user->username, 1);
+                $pdf->Cell(30, 10, $user->role, 1);
+                $pdf->Cell(60, 10, $user->email, 1);
+                $pdf->Ln();
             }
 
-            foreach (range('A', 'F') as $col) {
-                $sheet->getColumnDimension($col)->setAutoSize(true);
-            }
-
-            $fileName = 'user_export_' . now()->format('Ymd_His') . '.xlsx';
-            $writer = new Xlsx($spreadsheet);
-            $temp_file = storage_path('app/public/' . $fileName); // simpan ke folder storage/public
-            $writer->save($temp_file);
-
-            return response()->download($temp_file, $fileName, [
-                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            ])->deleteFileAfterSend(true);
+            $pdf->Output('I', 'daftar_user.pdf'); // I = preview di tab baru, D = langsung download
+            exit;
         }
 
-        public function exportPdf()
-{
-    $users = User::all();
+        public function exportPdf2()
+        {
+            $users = User::all();
 
-    $pdf = new \Codedge\Fpdf\Fpdf\Fpdf();
-    $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 14);
-    $pdf->Cell(0, 10, 'Daftar User', 0, 1, 'C');
-    $pdf->Ln(5);
+            $pdf = new \Codedge\Fpdf\Fpdf\Fpdf();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 10, 'Daftar User (Export)', 0, 1, 'C');
+            $pdf->Ln(5);
 
-    // Header Table
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(10, 10, 'No', 1);
-    $pdf->Cell(40, 10, 'Name', 1);
-    $pdf->Cell(30, 10, 'Username', 1);
-    $pdf->Cell(30, 10, 'Role', 1);
-    $pdf->Cell(60, 10, 'Email', 1);
-    $pdf->Ln();
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(10, 10, 'No', 1);
+            $pdf->Cell(40, 10, 'Name', 1);
+            $pdf->Cell(30, 10, 'Username', 1);
+            $pdf->Cell(30, 10, 'Role', 1);
+            $pdf->Cell(60, 10, 'Email', 1);
+            $pdf->Ln();
 
-    // Isi Data
-    $pdf->SetFont('Arial', '', 10);
-    foreach ($users as $index => $user) {
-        $pdf->Cell(10, 10, $index + 1, 1);
-        $pdf->Cell(40, 10, $user->name, 1);
-        $pdf->Cell(30, 10, $user->username, 1);
-        $pdf->Cell(30, 10, $user->role, 1);
-        $pdf->Cell(60, 10, $user->email, 1);
-        $pdf->Ln();
-    }
+            $pdf->SetFont('Arial', '', 10);
+            foreach ($users as $index => $user) {
+                $pdf->Cell(10, 10, $index + 1, 1);
+                $pdf->Cell(40, 10, $user->name, 1);
+                $pdf->Cell(30, 10, $user->username, 1);
+                $pdf->Cell(30, 10, $user->role, 1);
+                $pdf->Cell(60, 10, $user->email, 1);
+                $pdf->Ln();
+            }
 
-    $pdf->Output('I', 'daftar_user.pdf'); // I = preview di tab baru, D = langsung download
-    exit;
-}
-
-public function exportPdf2()
-{
-    $users = User::all();
-
-    $pdf = new \Codedge\Fpdf\Fpdf\Fpdf();
-    $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 14);
-    $pdf->Cell(0, 10, 'Daftar User (Export)', 0, 1, 'C');
-    $pdf->Ln(5);
-
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(10, 10, 'No', 1);
-    $pdf->Cell(40, 10, 'Name', 1);
-    $pdf->Cell(30, 10, 'Username', 1);
-    $pdf->Cell(30, 10, 'Role', 1);
-    $pdf->Cell(60, 10, 'Email', 1);
-    $pdf->Ln();
-
-    $pdf->SetFont('Arial', '', 10);
-    foreach ($users as $index => $user) {
-        $pdf->Cell(10, 10, $index + 1, 1);
-        $pdf->Cell(40, 10, $user->name, 1);
-        $pdf->Cell(30, 10, $user->username, 1);
-        $pdf->Cell(30, 10, $user->role, 1);
-        $pdf->Cell(60, 10, $user->email, 1);
-        $pdf->Ln();
-    }
-
-    // Langsung download dengan nama file khusus export
-    $pdf->Output('D', 'export-user-data.pdf');
-    exit;
-}
-
-
+            // Langsung download dengan nama file khusus export
+            $pdf->Output('D', 'export-user-data.pdf');
+            exit;
+        }
 }
