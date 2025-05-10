@@ -50,10 +50,11 @@
                         @php($no=1)
                         @forelse ($users as $row)
                         <tr>
-                            <td>1</td>
+                            <td>{{ $no++ }}</td>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->username }}</td>
-                            <td>{{ $row->role }}</td>
+                            <td>
+                                {{ $row->role }}</td>
                             <td>{{ $row->email }}</td>
                             <td> <img class="img-profile rounded-circle" src="{{$user->profile}}"></td>
 

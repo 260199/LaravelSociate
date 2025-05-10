@@ -6,13 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>SB Admin 2 - Login</title>
+        <title>Log Activity - ITP</title>
 
         <!-- Custom fonts for this template-->
         <link href="{{ asset('boostrap/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"rel="stylesheet">
         <!-- Custom styles for this template-->
         <link href="{{ asset('boostrap/css/sb-admin-2.min.css') }}" rel="stylesheet">
+        <link rel="icon" 
+        type="image/svg+xml" 
+        href="{{ asset('storage/default/itp.png') }}">
+        
     </head>
 <body class="bg-gradient-primary">
     <div class="container">
@@ -23,7 +27,9 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block">
+                                    <img src="{{Storage::url('/default/image.svg')}}" style="width: 555px; height:576px; text-align:center;padding-top:px;">
+				    </div>
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
@@ -40,17 +46,17 @@
                                 <form action="{{ url('login/proses') }}" method="post">
                                     @csrf
                                     <div class="input-group mb-3">
-                                    <input type="text" class="form-control
-                                    @error('username')
+                                    <input type="email" class="form-control
+                                    @error('email')
                                     is-invalid
                                     @enderror
-                                    " placeholder="username" name="username" autofocus disabled>
+                                    " placeholder="email" name="email" autofocus >
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                         <span class="fas fa-user "></span>
                                         </div>
                                     </div>
-                                    @error('username')
+                                    @error('email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -62,7 +68,7 @@
                                     @error('password')
                                     is-invalid
                                     @enderror
-                                    " placeholder="Password" name="password" disabled>
+                                    " placeholder="Password" name="password" >
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                         <span class="fas fa-lock"></span>
@@ -77,7 +83,7 @@
                                     <div class="row">
                                     <!-- /.col -->
                                     <div class="col-12 mt-6 mb-6">
-                                        <button type="submit" class="btn btn-primary btn-block" disabled>Sign In</button>
+                                        <button type="submit" class="btn btn-primary btn-block" >Sign In</button>
                                         <a href="{{ route('redirect') }}" class="btn btn-primary btn-block">Login With Google</a>
                                     </div>
                                     <!-- /.col -->

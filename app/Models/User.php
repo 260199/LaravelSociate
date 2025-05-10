@@ -18,8 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'role', 'email',  'profile', 'google_id',
+        'name', 'role', 'email', 'google_id','password'
     ];
+    
+    public function notifications()
+{
+    return $this->hasMany(Notification::class);
+}
 
     /**
      * The attributes that should be hidden for serialization.

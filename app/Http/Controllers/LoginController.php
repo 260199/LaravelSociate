@@ -13,15 +13,16 @@ class LoginController extends Controller
         }
         return view(('login.login'));
     }
+
     public function proses(Request $request){
         $request->validate([
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required'
         ],[
-            'username.required'=> 'username Tidak Booleh Kosong!',
+            'email.required'=> 'email Tidak Booleh Kosong!',
         ]);
 
-        $credentials = $request->only('username','password');
+        $credentials = $request->only('email','password');
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
@@ -32,9 +33,10 @@ class LoginController extends Controller
             return redirect()->intended('Login.login');
         }
         return back()->withErrors([
-            'username' => 'username Atau Password Anda Salah!!'
-            ])->onlyInput('username');
+            'email' => 'email Atau Password Anda Salah!!'
+            ])->onlyInput('email');
     }
+
     public function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();

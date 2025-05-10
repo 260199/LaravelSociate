@@ -1,32 +1,34 @@
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
+// // import Echo from "laravel-echo";
+// // import Pusher from "pusher-js";
 
-import axios from 'axios';
-window.axios = axios;
+// // window.Pusher = Pusher;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from 'laravel-echo';
-
-// import Pusher from 'pusher-js';
-// window.Pusher = Pusher;
-
-// window.Echo = new Echo({
+// // window.Echo = new Echo({
+// //     broadcaster: 'pusher',
+// //     key: 'your-pusher-key',  // Ganti dengan key Pusher kamu
+// //     cluster: 'your-cluster', // Ganti dengan cluster Pusher kamu
+// //     encrypted: true
+// // });
+// // Konfigurasi Echo
+// const echo = new Echo({
 //     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-//     wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-//     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-//     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-//     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-//     enabledTransports: ['ws', 'wss'],
+//     key: '0e6943fcf6b465eff50f',
+//     cluster: 'ap1',
+//     forceTLS: true
 // });
+// echo.channel('renstra-channel')
+//     .listen('.renstra.created', (e) => {
+//         console.log("Notifikasi masuk 🚀", e);
+
+//         // Menampilkan pesan notifikasi
+//         const renstraAlert = document.getElementById('renstraAlert');
+//         renstraAlert.innerHTML = '<strong>Berhasil!</strong> Renstra baru ditambahkan: ' + e.renstra.nama;
+
+//         // Menampilkan notifikasi (alert)
+//         renstraAlert.style.display = 'block';
+
+//         // Menyembunyikan notifikasi setelah beberapa detik
+//         setTimeout(() => {
+//             renstraAlert.style.display = 'none';
+//         }, 5000);  // Menyembunyikan setelah 5 detik
+//     });

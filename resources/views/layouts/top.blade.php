@@ -22,3 +22,6 @@
     <link href="{{ asset ('boostrap/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset ('boostrap/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset ('boostrap/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    {{-- Previews foto yang kita gunakan di detail --}}
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet"> --}}
