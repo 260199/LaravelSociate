@@ -33,6 +33,6 @@ public function notifications()
 }
 public function jekeg()
 {
-    return $this->belongsTo(Jekeg::class);
+    return $this->belongsTo(jekeg::class);
 }
 }

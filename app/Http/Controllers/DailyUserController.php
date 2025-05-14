@@ -201,7 +201,7 @@ class DailyUserController extends Controller
                 $daily->save();
             }
         }
-        // $this->sendEmailNotification($daily);
+        $this->sendEmailNotification($daily);
         broadcast(new DailyReport($daily));
         return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
     }
