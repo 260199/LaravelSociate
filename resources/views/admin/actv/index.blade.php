@@ -9,14 +9,14 @@
                 <div class="card-body">
                    <div class="row align-items-end mb-3">
                     <!-- Ini button tambah aktivitas -->
-                    <div class="col-auto">
+                    <div class="col-auto mt-4">
                         <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#modalTambahDaily"  data-bs-toggle="tooltip"
                         title="Tambah Aktifitas">Tambah Aktifitas
                         </button>
                     </div>
 
                     <!-- button kirim laporan v3 -->
-                    <div class="col-auto">
+                    <div class="col-auto mt-4">
                         <button type="button" class="btn btn-success btn-icon-split" id="openMassReportModal" data-toggle="modal" data-target="#modalSendReport" disabled>
                             <span class="icon text-white-50 d-flex align-items-center">
                                 <input type="checkbox" id="checkAllEligible" data-bs-toggle="tooltip" title="Ceklis Seluruh Aktivitas" style="transform: scale(1.3); cursor: pointer;" />
@@ -26,7 +26,7 @@
                     </div>
 
                     <!-- filter v2 -->
-                    <div class="col-12 col-md-4 position-relative">
+                    <div class="col-12 col-md-4 mt-4 position-relative">
                         <label for="filterUser" style="position: absolute; top: -8px; left: 15px; background: white; padding: 0 5px; font-size: 12px; z-index: 1;">
                             Pilih User
                         </label>
@@ -38,7 +38,7 @@
                         </select>
                     </div>
 
-                    <div class="col-12 col-md-4 position-relative">
+                    <div class="col-12 col-md-4 mt-4 position-relative">
                         <label for="filterStatus" style="position: absolute; top: -8px; left: 15px; background: white; padding: 0 5px; font-size: 12px; z-index: 1;">
                             Pilih Status
                         </label>
@@ -114,7 +114,7 @@
                                          @endif
                                     
                                         
-                                        @if($item->status == 'dilaporkan')
+                                        @if($item->status == 'B')
                                             {{-- Tombol tunggal untuk approve atau tolak --}}
                                             <button type="button" class="btn btn-success btn-sm" title="Approve / Tolak"
                                                     onclick="showApproveConfirmation(
@@ -125,21 +125,6 @@
                                             </button>
                                         @endif
 
-                                     
-                                     
-
-                                    
-                                      {{-- Tombol Hapus --}}
-                                        {{-- <form action="{{ route('actv.destroy', $item->id) }}" method="POST" id="deleteForm{{ $item->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" title="Hapus"
-                                                    onclick="showDeleteConfirmation('{{ route('actv.destroy', $item->id) }}')"
-                                                    @if($item->user_id != auth()->id()) disabled @endif>
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form> --}}
-
                                         {{-- Info Status --}}
                                         @if($item->status == 'diterima')
                                             <a href="{{ route('actv.info', $item->id) }}" class="btn btn-sm btn-info"
@@ -147,7 +132,7 @@
                                                 title="Diterima pada: {{ \Carbon\Carbon::parse($item->done_at)->translatedFormat('d F Y') }}">
                                                 <i class="fas fa-info"></i>
                                             </a>
-                                        @elseif($item->status == 'dilaporkan')
+                                        @elseif($item->status == 'B')
                                             <a href="{{ route('actv.info', $item->id) }}" class="btn btn-sm btn-info"
                                                 data-bs-toggle="tooltip"
                                                 title="Dilaporkan pada: {{ \Carbon\Carbon::parse($item->done_at)->translatedFormat('d F Y') }}">
@@ -157,6 +142,12 @@
                                         <a class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Sudah Upload Bukti Kegiatan" href="{{ route('actv.info', ['id' => $item->id]) }}">
                                             <i class="fas fa-info"></i>
                                         </a>
+
+                                        @elseif($item->status == 'progress' && now()->greaterThan($batasWaktu))
+                                        <button class="btn btn-sm btn-danger position-relative" data-bs-toggle="tooltip" title="Expired" disabled>
+                                            <i class="fas fa-info"></i>
+                                        </button>
+
                                         
                                         @else
                                         <button class="btn btn-sm btn-info position-relative" data-bs-toggle="tooltip" title="Belum Upload Bukti Kegiatan" disabled>
@@ -164,10 +155,10 @@
                                         </button>
                                         @endif
                                     
-                                        {{-- Badge Expired --}}
-                                        @if($item->status == 'progress' && now()->greaterThan($batasWaktu))
+                                        {{-- Badge Expired
+                                        @elseif($item->status == 'progress' && now()->greaterThan($batasWaktu))
                                             <span class="badge badge-secondary">Expired</span>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </td>
                             </tr>

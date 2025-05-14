@@ -195,7 +195,7 @@
                     </div>
                     <!-- Total Daily Diterima -->
                     <div class="mb-3">
-                        <h5>Tugas Harian Ditolak: <span id="totalDiterima">{{ $totalDiterima }}</span></h5>
+                        <h5>Tugas Harian Ditolak: <span id="totalDiterima">{{ $totalDitolak }}</span></h5>
                         <div class="progress mb-4">
                             <div class="progress-bar" role="progressbar" style="width: {{ $allduty > 0 ? ($totalDitolak / $allduty) * 100 : 0 }}%" 
                                 aria-valuenow="{{ $totalDitolak }}" aria-valuemin="0" aria-valuemax="100">
